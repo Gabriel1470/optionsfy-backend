@@ -1,4 +1,4 @@
 const dotenv = require('dotenv').config()
 module.exports={
-  secret: process.env.
+  secret: process.env.TOKEN_KEY
 }
