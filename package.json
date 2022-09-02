@@ -2,9 +2,11 @@
   "name": "optionsfy-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./app/server", 
+    "start:dev": "nodemon ./app/server.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,7 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
+    "express": "^4.18.1",
     "mongoose": "^6.5.4",
     "mysql2": "^2.3.3",
     "sequelize": "^6.21.4"

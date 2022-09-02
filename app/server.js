@@ -4,8 +4,11 @@ const dotenv = require('dotenv').config();
 const db = require('../app/models')
 const app = express();
 
+const corsOption = {
+    origin: "http://localhost:8081",
+  };
 
-app.use(cors())
+app.use(cors(corsOption));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -26,9 +29,11 @@ db.sequelize.sync().then(()=>{
 
 app.get("/", (req,res) => {
     res.send('<h1>Home</h1>')
-    res.send.status(200)
+    res.sendStatus(200)
 })
 
 require('../app/routes/auth.routes')(app)
 
 app.listen(process.env.PORT,()=>{console.log(`[SERVER]:Server listen on port ${process.env.PORT}`)});
+
+module.exports={app}
