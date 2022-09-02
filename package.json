@@ -23,7 +23,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "mongoose": "^6.5.4",
-    "mysql2": "^2.3.3"
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.21.4"
   },
   "devDependencies": {
     "jest": "^29.0.1",
