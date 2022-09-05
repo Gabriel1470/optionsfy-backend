@@ -11,9 +11,9 @@ module.exports = function (app){
     }); 
     
     
-    app.post('/auth/signup', (req,res) => {[regexSignup.dataAreExisting, regexSignup.agreementsAreAccepted, 
+    app.post('/auth/signup',[regexSignup.dataAreExisting, regexSignup.agreementsAreAccepted, 
                             regexSignup.userAlreadyExist, regexSignup.emailIsCorrect, 
-                            regexSignup.passwordRespectRegex]},controller.signup)
+                            regexSignup.passwordRespectRegex],controller.signup)
     
     app.post('/auth/signin',[regexSignin.userExist,regexSignin.matchPassword],controller.signin)
 

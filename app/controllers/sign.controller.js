@@ -11,7 +11,7 @@ exports.signup = async (req, res) => {
     email: req.body.email,
     password: await bcrypt.hash(req.body.password, 10),
     isEnabled: "Y",
-  }).then(res.status(201)).send({ authorized: true })
+  }).then(res.status(200).send({ authorized: true }))
     .catch(err => console.error(err));
   console.log(`${req.body.email} Added correctly in the database.`)
 };

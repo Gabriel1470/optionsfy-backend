@@ -2,7 +2,7 @@ const { Sequelize } = require("sequelize");
 const db = require('../models/');
 const user = db.user;
 
-exports.exsistingData = (req,res,next) => {
+exports.dataAreExisting = (req,res,next) => {
   if ((req.body.username,
     req.body.email,
     req.body.password,
@@ -13,7 +13,7 @@ exports.exsistingData = (req,res,next) => {
     }
 }
 
-exports.acceptedAgreements = (req,res,next) => {
+exports.agreementsAreAccepted = (req,res,next) => {
   if (req.body.agreement === true){
     next()
   }else res.status(400).send({message: "Not accepted!"})
@@ -85,7 +85,7 @@ exports.emailIsCorrect = (req,res,next) => {
   }
 }
 
-exports.userExist = (req,res,next) => {
+exports.userAlreadyExist = (req,res,next) => {
   user.findOne({where: {email:req.body.email}}).then(data=>{
     if(data!==null){
       res.status(400).send({message:"User alredy exist"})
