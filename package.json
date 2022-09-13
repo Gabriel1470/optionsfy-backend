@@ -1,36 +1,32 @@
 {
-  "name": "optionsfy-backend",
+  "name": "spacejim-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "app/server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./app/server", 
-    "start:dev": "nodemon ./app/server.js"
+    "server": "nodemon server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Gabriel1470/optionsfy-backend.git"
+    "url": "git+https://github.com/Underscore2/spacejim-backend.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Gabriel1470/optionsfy-backend/issues"
+    "url": "https://github.com/Underscore2/spacejim-backend/issues"
   },
-  "homepage": "https://github.com/Gabriel1470/optionsfy-backend#readme",
+  "homepage": "https://github.com/Underscore2/spacejim-backend#readme",
   "dependencies": {
-    "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
-    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.2",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "mongoose": "^6.5.4",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.21.4"
+    "sequelize": "^6.21.3"
   },
   "devDependencies": {
-    "jest": "^29.0.1",
+    "jest": "^28.1.3",
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.19",
     "supertest": "^6.2.4"

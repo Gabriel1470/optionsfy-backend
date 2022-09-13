@@ -1,38 +1,47 @@
-const { Sequelize }= require("sequelize");
-const db = require("../models");
-const dotenv = require("dotenv");
+//const { Sequelize } = require("sequelize");
+const db = require('../models')
 const user = db.user;
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+const config = require("../config/auth.config.js");
 
-exports.userExist = (req,res,next) =>{
-user.findOne({
-  where: {
-    email: req.body.email
-  }
-}).then(data => {
-  if(data) {next()}
-  else {res.status(400).send({message:"failed"})};
-}).catch(err=>console.log(err))
-}
 
-exports.matchPassword = async(req,res,next)=> {
-  const checkUser = await user.findOne({where:{email:req.body.email}})
-  if(checkUser && await bcrypt.compare(req.body.password, checkUser.password)) {next()}
-  else { {res.status(400).send({message:"failed"}) }}
-}
-
-exports.verifyToken = async(req,res,next)=>{
-  const token=(req.headers.authorization.split(' ')[1])
-  try{
-    const decoded = jwt.verify(token, process.env.TOKEN_KEY);
-    const checkUser = await user.findOne({where: {email: decoded.email, password: decoded.password}})
-    if(checkUser)
-    {next()}
-    else{
-      res.status(400).send({"error":"token not valid"})
+verifyToken = (req, res, next) => {
+    let token = req.header["x-access-token"];
+    if (!token) {
+        return res.status(403).send({
+            message: "No token provided!"
+        });
     }
-  }
-  catch(err){console.log(err.message)}
+
+    jwt.verify(token, config.secret, (err, decoded) => {
+        if (err) {
+            return res.status(401).send({
+                message: "Unauthorized!"
+            });
+        }
+        req.userEmail = decoded.email;
+        next();
+    });
+};
+
+userExist=(req,res,next)=>{
+    console.log(req.body)
+        user.findOne({
+            where:{
+                email: req.body.email
+            }
+        }).then(data=>
+            {
+                if(data){ next()}
+                else{res.status(400).send({message:"AUTH1.1 - Failed"})}
+            }
+            ).catch(err=>console.log(err))
 }
 
+
+const authJwt = {
+    verifyToken: verifyToken,
+    userExist: userExist,
+};
+
+module.exports = authJwt;

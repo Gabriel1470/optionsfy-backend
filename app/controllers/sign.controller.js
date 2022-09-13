@@ -1,39 +1,49 @@
-const db = require("../models/");
-const jwt = require("jsonwebtoken");
+const db = require("../models");
 const config = require("../config/auth.config");
-const dotenv = require("dotenv").config()
-const user = db.user;
-const bcrypt = require("bcrypt");
+const User = db.user;
+const Op = db.Sequelize.Op;
+let jwt = require("jsonwebtoken");
+let bcrypt = require("bcryptjs");
 
-exports.signup = async (req, res) => {
-  user.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: await bcrypt.hash(req.body.password, 10),
-    isEnabled: "Y",
-  }).then(res.status(200).send({ authorized: true }))
-    .catch(err => console.error(err));
-  console.log(`${req.body.email} Added correctly in the database.`)
+exports.signup = (req, res) => {
+  User
+    .create({
+      email: req.body.email,
+      username: req.body.username,
+      password: bcrypt.hashSync(req.body.password, 10),
+      isEnabled: "Y",
+    })
+      .then(user => {
+        const token = jwt.sign(
+            { email: req.body.email },
+            config.secret,
+            { expiresIn: 86400,}
+        );
+          res.status(200).send({user:user, token: token})
+      })
+      .catch(err => {
+          res.status(500).send({message: err.message});
+      });
 };
 
 exports.signin = async (req, res) => {
-  const checkUser = await user.findOne({ Where: { email: req.body.email } })
-
-  if (checkUser && await bcrypt.compare(req.body.password, checkUser.password)) {
-    const token = jwt.sign({
-      id: checkUser.id, email: checkUser.email, password: checkUser.password
-    }, process.env.TOKEN_KEY, {
-      expiresIn: '2h',
+    const utente = await User.findOne({where: { email: req.body.email }})
+    if(utente && await bcrypt.compare(req.body.password,utente.password)){
+     
+    const token = jwt.sign(
+        { email: req.body.email },
+        config.secret,
+        { expiresIn: 86400,}
+    );
+    res.status(200).send({
+        username: utente.username,
+        email: utente.email,
+        authorized: true,
+        token: token,
     });
-
-    checkUser.token = token;
-    res.status(200).send({authorized: true, token: checkUser.token, email: req.body.email})
-    console.log(`[SERVER]: ${req.body.email} Has successfully connected`)
-  } else {
-    res.status(400)
-  }
+}else{
+    res.status(400).send({"Errore":"402"})
 }
 
-exports.tokenIsValid = (req,res) => {
-    req.status(200)
-}
+  console.log(`[SERVER]: ${req.body.email} Ha appena effettuato l'accesso`);
+};
