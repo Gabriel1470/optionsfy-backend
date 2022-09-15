@@ -32,6 +32,7 @@ module.exports = function (app){
 
     app.get('/',(req,res)=>{
 return(<h1>db ciao</h1>)
+res.send(200)
     })
 
 };
