@@ -1,10 +1,10 @@
 const dotenv = require ("dotenv").config()
 module.exports={
     HOST: 'localhost',
-    USER: 'root',
+    USER: 'postgres',
     PASSWORD: process.env.DB_PASSWORD,
-    DB:'optionsfy',
-    dialect:'mysql',
+    DB:'deploy',
+    dialect:'postgres',
     pool:{
         max:3,
         min:0,
