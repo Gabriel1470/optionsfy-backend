@@ -30,4 +30,8 @@ module.exports = function (app){
         controller.signin
     );
 
+    app.get('/',(req,res)=>{
+return(<h1>db ciao</h1>)
+    })
+
 };
